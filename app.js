@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
     res.redirect("/blogs");
 })
 
-
+// Index route
 app.get("/blogs", (req, res) => {
     Blog.find({}, (err, blogs) => {
         if(err){
@@ -48,9 +48,39 @@ app.get("/blogs", (req, res) => {
     });
 });
 
+// New route
+app.get("/blogs/new", (req, res) => {
+    res.render("new");
+})
+
+// Create route
+app.post("/blogs", (req, res) => {
+    // create blog
+    Blog.create(req.body.blog, (err, newBlog) => {
+        if(err) {
+            res.render("new");
+        } else {
+            res.redirect("/blogs");
+        }
+    })
+});
 
 
+// Show route
+app.get("/blogs/:id", (req, res) => {
+    Blog.findById(req.params.id, (err, foundBlog) => {
+        if(err){
+            res.redirect("/blogs");
+        } else {
+            res.render("show", {blog: foundBlog});
+        }
+    });
+});
 
+// Edit route
+app.get("/blogs/:id/edit", (req, res){
+    res.render("edit");
+})
 
 
 
