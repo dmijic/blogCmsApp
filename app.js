@@ -69,7 +69,7 @@ app.post("/blogs", (req, res) => {
 // Show route
 app.get("/blogs/:id", (req, res) => {
     Blog.findById(req.params.id, (err, foundBlog) => {
-        if(err){
+        if(err) {
             res.redirect("/blogs");
         } else {
             res.render("show", {blog: foundBlog});
@@ -78,12 +78,24 @@ app.get("/blogs/:id", (req, res) => {
 });
 
 // Edit route
-app.get("/blogs/:id/edit", (req, res){
+app.get("/blogs/:id/edit", (req, res) => {
+    Blog.findById (req.params.id, (err, foundBlog) => {
+        if(err) {
+            res.redirect("/blogs");
+        } else {
+            res.render("edit", {blog: foundBlog});
+        }
+    });
     res.render("edit");
-})
+});
+
+// Update route
+app.put("blogs/:id", (req, red) => {
+
+});
 
 
 
 app.listen(port, process.env.IP, () => {
     console.log(`Server started on port ${port}`);
-})
+});
